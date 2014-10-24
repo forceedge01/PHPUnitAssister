@@ -144,6 +144,7 @@ abstract class Mocker extends AssertionAssister {
     {
         $expects = isset($options['expects']) ? $options['expects'] : $this->any();
         $with = isset($options['with']) ? $options['with'] : '';
+        $withArgs = isset($options['withArgs']) ? $options['withArgs'] : '';
         $will = isset($options['will']) ? $options['will'] : $this->returnSelf();
         
         if(! is_object($this->mockObject))
@@ -154,8 +155,25 @@ abstract class Mocker extends AssertionAssister {
         
         $this
             ->performWith($mocked, $with)
+            ->performWithArgs($mocked, $withArgs)
             ->performWill($mocked, $will);        
         
+        return $this;
+    }
+
+    private function performWithArgs($mocked, $withArgs = null)
+    {
+        if($withArgs)
+        {
+            if(! is_array($withArgs))
+            {
+                // throw exception
+                throw new \Exception('withArgs requires either an array or null value as input,  '.gettype($withArgs).' given in '.$method);
+            }
+            
+            call_user_method_array('with', $mocked, $withArgs);
+        }
+
         return $this;
     }
     
@@ -168,7 +186,9 @@ abstract class Mocker extends AssertionAssister {
                 call_user_method_array('with', $mocked, $with['withArgs']);
             }
             else
+            {
                 $mocked->with($with);
+            }
         }
         
         return $this;
