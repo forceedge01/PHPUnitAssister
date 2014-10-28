@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundles\CoreBundle\Tests\Service;
+namespace Bundles\CoreBundle\PHPUnitAssister;
 
 
 use Bundles\CoreBundle\AssertionAssister\MockProvider;

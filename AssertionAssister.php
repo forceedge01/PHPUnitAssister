@@ -1,8 +1,8 @@
 <?php
 
-namespace Bundles\CoreBundle\TestsHelperSuite;
+namespace Bundles\CoreBundle\PHPUnitAssister;
 
-
+// Change namespace according to your project settings
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class AssertionAssister extends WebTestCase {

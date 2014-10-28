@@ -22,7 +22,30 @@ No Database calls.
 Simply extend your test class with the objectHandler class and run the app, it should work as is even if written with plain PHPUnit methods. Once its working, use the methods provided.
 
 ```
-class YourTestClass extends ObjectHandler { ...
+<?php
+
+use Bundles\CoreBundle\PHPUnitAssister\TestObjectHandler;
+
+class YourTestClass extends TestObjectHandler {
+
+    public function testYourMethod()
+    {
+        ...
+    }
+}
+```
+
+You may also need to set the namespace where the webTestCase class exists in your project for phpunit in the AssertionAssister file
+```
+<?php
+
+namespace Bundles\CoreBundle\PHPUnitAssister;
+
+// Change namespace according to your project settings
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+abstract class AssertionAssister extends WebTestCase {
+
 ```
 
 ### Contribution guidelines ###

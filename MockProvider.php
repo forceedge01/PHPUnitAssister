@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundles\CoreBundle\TestsHelperSuite;
+namespace Bundles\CoreBundle\PHPUnitAssister;
 
 
 
