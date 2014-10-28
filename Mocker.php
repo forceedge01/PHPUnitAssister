@@ -168,7 +168,7 @@ abstract class Mocker extends AssertionAssister {
             if(! is_array($withArgs))
             {
                 // throw exception
-                throw new \Exception('withArgs requires either an array or null value as input,  '.gettype($withArgs).' given in '.$method);
+                throw new \Exception('withArgs requires either an array or null value as input,  '.gettype($withArgs));
             }
             
             call_user_method_array('with', $mocked, $withArgs);
