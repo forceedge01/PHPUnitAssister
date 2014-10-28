@@ -3,9 +3,9 @@
 namespace Bundles\CoreBundle\Tests\Service;
 
 
-use Bundles\CoreBundle\TestsHelperSuite\MockProvider;
+use Bundles\CoreBundle\AssertionAssister\MockProvider;
 
-abstract class ObjectHandler extends MockProvider{
+abstract class TestObjectHandler extends MockProvider{
 
     protected $testObject;
     protected $args;
