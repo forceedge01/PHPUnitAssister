@@ -3,7 +3,7 @@
 namespace Bundles\CoreBundle\PHPUnitAssister;
 
 
-use Bundles\CoreBundle\AssertionAssister\MockProvider;
+use Bundles\CoreBundle\AssertionAssister\Resources\MockProvider;
 
 abstract class TestObjectHandler extends MockProvider{
 

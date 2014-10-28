@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundles\CoreBundle\PHPUnitAssister;
+namespace Bundles\CoreBundle\PHPUnitAssister\Resources;
 
 
 
