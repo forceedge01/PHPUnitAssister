@@ -21,6 +21,10 @@ No Database calls.
 * How to run tests
 Simply extend your test class with the objectHandler class and run the app, it should work as is even if written with plain PHPUnit methods. Once its working, use the methods provided.
 
+```
+class YourTestClass extends ObjectHandler { ...
+```
+
 ### Contribution guidelines ###
 
 * Feel free to contribute to this small project.
