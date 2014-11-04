@@ -29,7 +29,7 @@ Simply extend your test class with the objectHandler class and run the app, it s
 ```
 <?php
 
-use Bundles\CoreBundle\PHPUnitAssister\TestObjectHandler;
+use PHPUnitAssister\src\Core\TestObjectHandler;
 
 class YourTestClass extends TestObjectHandler {
 
@@ -44,7 +44,7 @@ You may also need to set the namespace where the webTestCase class exists in you
 ```
 <?php
 
-namespace Bundles\CoreBundle\PHPUnitAssister\Resources;
+namespace PHPUnitAssister\src\Core;
 
 // Change namespace according to your project settings
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
