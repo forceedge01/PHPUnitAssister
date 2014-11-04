@@ -1,9 +1,7 @@
 <?php
 
-namespace Bundles\CoreBundle\PHPUnitAssister;
+namespace PHPUnitAssister\src\Core;
 
-
-use Bundles\CoreBundle\AssertionAssister\Resources\MockProvider;
 
 abstract class TestObjectHandler extends MockProvider{
 

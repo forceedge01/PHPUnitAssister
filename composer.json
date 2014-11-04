@@ -1,0 +1,19 @@
+{
+    "name": "genesis/phpunitassister",
+    "description": "Extends the phpunit WebTestCase class to provide easier mocking and assertions (chain mocking and chain assertions)",
+    "authors": [
+        {
+            "name": "'Wahab Qureshi'",
+            "email": "its.inevitable@hotmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "PHPUnitAssister": "src/"
+        }
+    }
+}

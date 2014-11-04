@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundles\CoreBundle\PHPUnitAssister\Resources;
+namespace PHPUnitAssister\src\Core;
 
 // Change namespace according to your project settings
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -310,4 +310,16 @@ abstract class AssertionAssister extends WebTestCase {
     }
     
     /************************************************** END OF NEW STUFF ***************************************************/
+
+    public function prex()
+    {
+        $arguments = func_get_args();
+
+        foreach($arguments as $argument)
+        {
+            print_r($argument);
+        }
+
+        exit();
+    }
 }

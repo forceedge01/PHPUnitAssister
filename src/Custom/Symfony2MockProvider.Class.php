@@ -1,23 +1,15 @@
 <?php
 
-namespace Bundles\CoreBundle\PHPUnitAssister\Resources;
+namespace PHPUnitAssister\src\Custom;
 
 
+use PHPUnitAssister\src\Core\TestObjectHandler;
 
-abstract class MockProvider extends Mocker{
+/*
+ * This class provides standard symfony2.3 mock objects
+ */
+abstract class Symfony2MockProvider extends TestObjectHandler{
     
-    // Default values for mocks
-    public $campaignId = 0;
-    public $accountId = 0;
-    public $userId = 0;
-    public $imageId = 0;
-    public $endUser = 0;
-    public $membership = 0;
-    public $goalId = 0;
-    public $rewardId = 0;
-    public $affiliateNetworkId = 0;
-    public $emailTypeId = 0;
-    public $emailId = 0;
     private $mocks = [];
     
     /**
@@ -63,26 +55,6 @@ abstract class MockProvider extends Mocker{
         }
 
         return $serviceMock->getMock();
-    }
-
-    public function getUserMailerServiceMock($methods = array())
-    {
-        $mailer = $this->getMockBuilder('\Bundles\MailerBundle\Service\UserMailerService')
-                ->setMethods($methods)
-                ->disableOriginalConstructor()
-                ->getMock();
-
-        return $mailer;
-    }
-    
-    public function getCoreMailerServiceMock($methods = array())
-    {
-        $mailer = $this->getMockBuilder('Bundles\MailerBundle\Service\CoreMailerService')
-                ->setMethods($methods)
-                ->disableOriginalConstructor()
-                ->getMock();
-
-        return $mailer;
     }
 
     public function getTwigEnvironmentMock()
@@ -252,21 +224,6 @@ abstract class MockProvider extends Mocker{
         return new \Symfony\Component\Security\Core\Encoder\EncoderFactory(array());
     }
     
-    public function getImageMock($id = null)
-    {
-        if(! $id and $id !== false)
-            $id = $this->imageId;
-
-        $imageMock = $this
-                ->getMockBuilder('Bundles\AssetBundle\Entity\Image')
-                ->getMock();
-
-        if($id)
-            $this->mockMethod($imageMock, 'getId', $id);
-
-        return $imageMock;
-    }
-    
     public function getContainerMock()
     {
         return $this->getServiceMock('\Symfony\Component\DependencyInjection\ContainerInterface');
@@ -275,74 +232,6 @@ abstract class MockProvider extends Mocker{
     public function getSwiftMailerMock()
     {
         return $this->getServiceMock('\Swift_Mailer', array('args' => false));
-    }
-    
-    /**
-     *
-     * @param mixed $id
-     * @param type $accountId
-     * @return type
-     */
-    public function getCampaignMock($id = null, $accountId = false)
-    {
-        if(! $id and $id !== false)
-            $id = $this->campaignId;
-
-        $campaignMock = $this->getMock('\Bundles\CampaignsBundle\Entity\Campaign');
-            
-        if($id)
-            $this->mockMethod($campaignMock, 'getId', $id);
-        
-        // Mock getAccount method and set return value to mocked account object
-        $accountMock = null;
-        
-        if($accountId !== false)
-        {
-            $accountMock = $this->getAccountMock($accountId);
-            
-            $this->mockMethod($campaignMock, 'getAccount', $accountMock);
-        }
-
-        return $campaignMock;
-    }
-
-    public function getRawCampaignMock()
-    {
-        return $this->getMock('\Bundles\CampaignsBundle\Entity\Campaign');
-    }
-
-    public function getAccountMock($id = null)
-    {
-//        $mock = $this->getEntityMock('AccountBundle:Account');
-//        
-//        if($id)
-//            $this->mockMethod($mock, 'getId', $id);
-//        
-//        return $mock;
-        
-        if(! $id and $id !== false)
-            $id = $this->accountId;
-
-        $accountMock = $this->getMock('\Bundles\AccountBundle\Entity\Account');
-
-        // Mock getId method for campaign
-        if($id)
-            $this->mockMethod($accountMock, 'getId', $id);
-
-        $userMock = $this->getUserMock();
-
-        $this->mockMethod($accountMock, 'getOwnerUser', $userMock);
-
-        if($id != 1)
-        {
-            $parentAccount = $this->getAccountMock(1);
-
-            $this->mockMethod($parentAccount, 'getId', 1);
-
-            $this->mockMethod($accountMock, 'getParentAccount', $parentAccount);
-        }
-
-        return $accountMock;
     }
     
     public function getEntityMock($bundleEntity, array $methods = array(), $returnValue = null)
@@ -368,51 +257,6 @@ abstract class MockProvider extends Mocker{
         return $mock;
     }
     
-    public function getAccountMembershipMock($id = null)
-    {
-        $mock = $this->getEntityMock('AccountBundle:AccountMembership');
-        
-        if($id)
-            $this->mockMethod($mock, 'getId', $id);
-        
-        return $mock;
-    }
-    
-    public function getUserMock($id = null)
-    {
-        $mock = $this->getEntityMock('UserBundle:User');
-        
-        if($id)
-            $this->mockMethod($mock, 'getId', $id);
-        
-        return $mock;
-    }
-
-    public function getAffiliateNetworkMock($id = null)
-    {
-        $mock = $this->getEntityMock('AffiliateNetworkBundle:AffiliateNetwork');
-        
-        if($id)
-            $this->mockMethod($mock, 'getId', $id);
-        
-        return $mock;
-    }
-
-    public function getAffiliateServiceMock() 
-    {
-        return $this->getServiceMock('\Bundles\AffiliateNetworkBundle\Service\AffiliateService', array('args' => false));
-    }
-
-    public function getEndUserMock($id = null)
-    {
-        $mock = $this->getEntityMock('EndUserBundle:User');
-
-        if($id)
-            $this->mockMethod($mock, 'getId', $id);
-
-        return $mock;
-    }
-
     public function getParameterBagMock()
     {
         return $this->getServiceMock('\Symfony\Component\HttpFoundation\ParameterBag');
@@ -423,75 +267,6 @@ abstract class MockProvider extends Mocker{
         return $this->getServiceMock('Symfony\Component\HttpFoundation\ResponseHeaderBag', array(
             'args' => false
         ));
-    }
-
-    public function getGoalMock($id = null, $methods = array())
-    {
-        if(! $id and $id !== false)
-            $id = $this->goalId;
-
-        $goalMock = $this->getMock('\Bundles\GoalBundle\Entity\Goal', $methods);
-
-        if($id)
-            $this->mockMethod($goalMock, 'getId', $id);
-
-        return $goalMock;
-    }
-
-    public function getRewardMock($id = null)
-    {
-        if(! $id and $id !== false)
-            $id = $this->rewardId;
-
-        $rewardMock = $this->getMock('\Bundles\GoalBundle\Entity\Reward');
-
-        if($id)
-            $this->mockMethod($rewardMock, 'getId', $id);
-
-        return $rewardMock;
-    }
-
-    public function getEmailMock($id = null, array $methods = array())
-    {
-        if(! $id and $id !== false)
-            $id = $this->emailId;
-
-        $emailMock = $this->getMock('\Bundles\MailerBundle\Entity\Email', $methods);
-
-        if($id)
-            $this->mockMethod($emailMock, 'getId', $id);
-
-        return $emailMock;
-    }
-
-    public function getEmailTypeMock($id = null)
-    {
-        if(! $id and $id !== false)
-            $id = $this->emailTypeId;
-
-        $emailTypeMock = $this->getMock('\Bundles\MailerBundle\Entity\EmailType');
-
-        if($id)
-            $this->mockMethod($emailTypeMock, 'getId', $id);
-
-        return $emailTypeMock;
-    }
-
-    public function getMembershipMock($id = null)
-    {
-        if(! $id and $id !== false)
-            $id = $this->membership;
-
-        $membershipMock = $this->getMock('\Bundles\EndUserBundle\Entity\Membership');
-
-        if($id !== false)
-        {
-            $this->mockMethod($membershipMock, 'getEndUser', $this->getEndUserMock());
-            $this->mockMethod($membershipMock, 'getCampaign', $this->getCampaignMock());
-            $this->mockMethod($membershipMock, 'getCampaignId', $id);
-        }
-
-        return $membershipMock;
     }
     
     public function getRedirectResponseMock()
@@ -539,18 +314,6 @@ abstract class MockProvider extends Mocker{
         return $requestMock;
     }
 
-    public function getCurlMock()
-    {
-        return $this->getServiceMock('\Bundles\CoreBundle\Service\CurlService', array('args' => false));
-    }
-
-    public function getSoapMock()
-    {
-        return $this->getServiceMock('\Soapclient', array(
-            'WSDL_URL' => "http://ws.webgains.com/aws.php"
-        ));
-    }
-    
     public function getFormErrorMock()
     {
         return $this->getServiceMock('Symfony\Component\Form\FormError');
@@ -566,40 +329,11 @@ abstract class MockProvider extends Mocker{
         return $this->getServiceMock('\Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken');
     }
 
-    public function getNewSampleImage()
-    {
-        $imageString = 'iVBORw0KGgoAAAANSUhEUgAAABwAAAASCAMAAAB/2U7WAAAABl' .
-            'BMVEUAAAD///+l2Z/dAAAASUlEQVR4XqWQUQoAIAxC2/0vXZDr' .
-            'EX4IJTRkb7lobNUStXsB0jIXIAMSsQnWlsV+wULF4Avk9fLq2r' .
-            '8a5HSE35Q3eO2XP1A1wQkZSgETvDtKdQAAAABJRU5ErkJggg==';
-
-        return base64_decode($imageString);
-    }
-
     public function getKernel()
     {
         $kernel = static::createKernel();
         $kernel->boot();
 
         return $kernel;
-    }
-
-    public function getSampleObject(array $properties = array())
-    {
-        $stdObject = new \stdClass();
-
-        foreach($properties as $property => $value)
-        {
-            $stdObject->$property = $value;
-        }
-
-        return $stdObject;
-    }
-    
-    public function prex()
-    {
-        $arguments = func_get_args();
-        
-        \Bundles\CoreBundle\Controller\ApplicationController::prex($arguments);
     }
 }
