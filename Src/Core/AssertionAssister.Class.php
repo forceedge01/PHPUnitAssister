@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPUnitAssister\src\Core;
+namespace PHPUnitAssister\Src\Core;
 
 // Change namespace according to your project settings
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
