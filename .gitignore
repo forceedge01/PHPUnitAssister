@@ -2,3 +2,5 @@
 src/Custom/CustomMockProvider.Class.php
 
 /vendor/
+
+!composer.lock
