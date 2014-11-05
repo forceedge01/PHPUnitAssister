@@ -66,7 +66,6 @@ abstract class Mocker extends AssertionAssister {
             foreach($methods as $method)
             {
                 $this->mm($method, $options);
-//                $this->mock($method, $singleReturn);
             }
         }
         else
@@ -77,12 +76,10 @@ abstract class Mocker extends AssertionAssister {
                 if(is_int($method))
                 {
                     $this->mm($value);
-//                    $this->mock($value, null);
                 }
                 else
                 {
                     $this->mm($method, array('will' => $this->returnValue($value)));
-//                    $this->mock($method, $value);
                 }
             }
         }
