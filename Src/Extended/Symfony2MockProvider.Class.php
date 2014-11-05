@@ -1,9 +1,9 @@
 <?php
 
-namespace PHPUnitAssister\src\Custom;
+namespace PHPUnitAssister\Src\Extended;
 
 
-use PHPUnitAssister\src\Core\TestObjectHandler;
+use PHPUnitAssister\Src\Core\TestObjectHandler;
 
 /*
  * This class provides standard symfony2.3 mock objects
