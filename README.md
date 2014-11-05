@@ -27,6 +27,7 @@ No Database calls.
 Simply extend your test class with the objectHandler class and run the app, it should work as is even if written with plain PHPUnit methods. Once its working, use the methods provided.
 
 ```
+// PHPUnitAssister/src/Core/TestObjectHandler.Class.php
 <?php
 
 use PHPUnitAssister\src\Core\TestObjectHandler;
@@ -42,6 +43,7 @@ class YourTestClass extends TestObjectHandler {
 
 You may also need to set the namespace where the webTestCase class exists in your project for phpunit in the AssertionAssister file
 ```
+// PHPUnitAssister/src/Core/AssertionAssister.Class.php
 <?php
 
 namespace PHPUnitAssister\src\Core;
@@ -51,6 +53,38 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class AssertionAssister extends WebTestCase {
 
+```
+
+You can also choose to extend the assister with your own custom methods, a base symfony2 mock provider is already provided as a custom class.
+```
+// PHPUnitAssister/src/Custom/CustomMockProvider.Class.php
+<?php
+
+namespace PHPUnitAssister\src\Custom;
+
+/*
+ * This class can be used to extend the phpunit assister mock methods to facilitate your project.
+ * Add mock methods to it and use this class to extend your test classes.
+ */
+abstract class CustomMockProvider extends Symfony2MockProvider{
+
+}
+```
+```
+// PHPUnitAssister/src/Custom/Symfony2MockProvider.Class.php
+<?php
+
+namespace PHPUnitAssister\src\Custom;
+
+
+use PHPUnitAssister\src\Core\TestObjectHandler;
+
+/*
+ * This class provides standard symfony2.3 mock objects
+ */
+abstract class Symfony2MockProvider extends TestObjectHandler{
+	...
+}
 ```
 
 ### Contribution guidelines ###
