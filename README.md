@@ -80,16 +80,16 @@ use PHPUnitAssister\src\Core\TestObjectHandler;
 /*
  * This class provides standard symfony2.3 mock objects
  */
-abstract class Symfony2MockProvider extends TestObjectHandler{
+class Symfony2MockProvider extends Mocker{
 	...
 }
 ```
 
 ```
-// PHPUnitAssister/Src/Extended/CustomMockProvider.Class.php
+// YourClass/ExtendedMockProvider.Class.php
 <?php
 
-class CustomMockProvider extends Symfony2MockProvider{
+class ExtendedMockProvider extends Mocker{ // or Symfony2MockProvider
 
 }
 ```
@@ -106,16 +106,18 @@ class CustomMockProvider extends Symfony2MockProvider{
 
 Setting your test class
 ```
+$this->SymfMockProvider = ->getMockProvider('Symfony2MockProvider');
+
 $this->setTestObject('Bundles\CampaignsBundle\Service\CampaignsService', array(
-            'entityManager' => $this->getEntityManagerMock(),
-            'router' => $this->getRouterMock(),
-            'translator' => $this->getTranslatorMock()
+            'entityManager' => $this->SymfMockProvider->getEntityManagerMock(),
+            'router' => $this->SymfMockProvider->getRouterMock(),
+            'translator' => $this->SymfMockProvider->getTranslatorMock()
         ));
 ```
 
 Altering your test class's dependecy
 ```
-$entityManager = $this->getEntityManagerMock();
+$entityManager = $this->SymfMockProvider->getEntityManagerMock();
 
 $this->resetTestObjectArgument('entityManager', $entityManager);
 ```
@@ -131,14 +133,14 @@ $userMock->expects($this->any())
 	->will($this->returnValue('example@phpunitAssister.com'));
 
 // assertRepoMock to be injected in entityManager
-$assertRepoMock = $this->getRepositoryMock('AssetBundle:Image');
+$assertRepoMock = $this->SymfMockProvider->getRepositoryMock('AssetBundle:Image');
 $assertRepoMock->expects($this->exactly(1))
         ->method('find')
         ->with(12)
         ->will($this->returnValue($userMock));
 
 // Final object that contains the mocked objects
-$entityManager = $this->getEntityManagerMock();
+$entityManager = $this->SymfMockProvider->getEntityManagerMock();
 $entityManager->expects($this->exactly(2))
         ->method('getRepository')
         ->with('AssetBundle:Image')
@@ -148,12 +150,12 @@ $entityManager->expects($this->exactly(2))
 PHPUnit assister
 ```
 // Starts at the entityManager
-$entityManager = $this->setmo($this->getEntityManagerMock())
+$entityManager = $this->setmo($this->SymfMockProvider->getEntityManagerMock())
 	->mm('getRepository', [
 		'expects' => $this->exactly(2),
 		'with' => 'AssetBundle:Image',
 		// Inject the mock directly, doesnt need to stored in another variable
-		'will' => $this->returnValue($this->getRepositoryMock('AssetBundle:Image'))
+		'will' => $this->returnValue($this->SymfMockProvider->getRepositoryMock('AssetBundle:Image'))
 	])
 	// Use the then call to further mock methods of the previously set object in the will clause
 	->then('find', [
