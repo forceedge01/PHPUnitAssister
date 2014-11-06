@@ -10,7 +10,18 @@ PHPUnit assister's main focus is to minimize the amount of duplicate code writte
 
 ### How do I get set up? ###
 
-### Cloning the repo ###
+### Install/Cloning the repo ###
+
+With composer
+
+```
+{
+	"require": {
+		"genesis/phpunitassister": "dev-master"
+	}
+}
+```
+
 ```
 git clone git@bitbucket.org:wqureshi/phpunitassister.git PHPUnitAssister
 ```
