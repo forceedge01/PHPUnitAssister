@@ -1,10 +1,15 @@
 <?php
 
-namespace PHPUnitAssister\Src\Core;
+namespace PHPUnitAssister\Src\Extended;
 
 
+use PHPUnitAssister\Src\Core\Mocker;
 
-abstract class MockProvider extends Mocker{
+class MockProvider extends Mocker{
+
+    public function __construct() {
+        // So that parent constructor isnt fired
+    }
     
     public function getTwigEnvironmentMock()
     {

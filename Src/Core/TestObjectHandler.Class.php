@@ -3,7 +3,7 @@
 namespace PHPUnitAssister\Src\Core;
 
 
-abstract class TestObjectHandler extends MockProvider{
+abstract class TestObjectHandler extends Mocker{
 
     protected $testObject;
     protected $args;
@@ -17,14 +17,16 @@ abstract class TestObjectHandler extends MockProvider{
     public function setTestObject($class, array $args = array())
     {
         $this->setReflection($class);
-
-        if($args)
-            $this->args = $args;
+        $this->args = $args;
 
         if($this->args)
+        {
             $this->testObject = $this->reflection->newInstanceArgs($this->args);
+        }
         else
+        {
             $this->testObject = $this->reflection->newInstance();
+        }
 
         return $this;
     }
@@ -32,10 +34,7 @@ abstract class TestObjectHandler extends MockProvider{
     public function resetTestObject(array $args)
     {
         $this->setReflection($this->testObject);
-
-        if($args)
-            $this->args = $args;
-
+        $this->args = $args;
         $this->testObject = $this->reflection->newInstanceArgs($this->args);
 
         return $this;
@@ -53,15 +52,22 @@ abstract class TestObjectHandler extends MockProvider{
     public function setMessage($expected, $response)
     {
         $formattedResponse = $response;
-        if(is_object($formattedResponse))
-            $formattedResponse = 'instance of '.get_class($formattedResponse);
 
+        if(is_object($formattedResponse))
+        {
+            $formattedResponse = 'instance of '.get_class($formattedResponse);
+        }
         else if(is_array($formattedResponse))
+        {
             $formattedResponse = print_r($formattedResponse, true);
+        }
 
         $formattedExpected = $expected;
+
         if(is_object($formattedExpected) || is_array($formattedExpected))
+        {
             $formattedExpected = print_r($formattedExpected, true);
+        }
 
         return "\n\nExpected (++) \nActual (--) \n\n@++ $formattedExpected\n@-- $formattedResponse\n";
     }

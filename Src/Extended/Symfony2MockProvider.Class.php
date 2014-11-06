@@ -3,12 +3,12 @@
 namespace PHPUnitAssister\Src\Extended;
 
 
-use PHPUnitAssister\Src\Core\TestObjectHandler;
+use PHPUnitAssister\Src\Core\Mocker;
 
 /*
  * This class provides standard symfony2.3 mock objects
  */
-abstract class Symfony2MockProvider extends TestObjectHandler{
+class Symfony2MockProvider extends Mocker{
     
     private $mocks = [];
     

@@ -10,6 +10,7 @@ abstract class Mocker extends AssertionAssister {
     public $previousMock;
     private $mockObject;
     public $mockObjects = array();
+    private $mockProviders = array();
     
      /**
      *
@@ -233,6 +234,25 @@ abstract class Mocker extends AssertionAssister {
         $this->mockObjects[] = $mockedObject;
         
         return $this;
+    }
+
+    /**
+     *
+     * @param type $mockProviderClass
+     * @return \PHPUnitAssister\Src\Extended\MockProvider
+     */
+    public function getMockProvider($mockProviderClass = 'MockProvider')
+    {
+        if(isset($this->mockProviders[$mockProviderClass]))
+        {
+            return $this->mockProviders[$mockProviderClass];
+        }
+
+        $qualifiedClass = "\\PHPUnitAssister\\Src\\Extended\\$mockProviderClass";
+        \PHPUnitAssister\Loader::LoadExtendedFileByClass($mockProviderClass);
+        $this->mockProviders[$mockProviderClass] = new $qualifiedClass;
+
+        return $this->mockProviders[$mockProviderClass];
     }
     
     /*******************************************************************/
