@@ -1,17 +1,14 @@
 <?php
 
-namespace PHPUnitAssister\Src\Core;
+namespace PHPUnitAssister\Src\Extended;
 
 
+use PHPUnitAssister\Src\Core\Mocker;
 
-abstract class MockProvider extends Mocker{
-    
-    public function getTwigEnvironmentMock()
-    {
-        $twig_Environment = $this->getMockBuilder('\Twig_Environment')
-                ->getMock();
+class MockProvider extends Mocker{
 
-        return $twig_Environment;
+    public function __construct() {
+        // So that parent constructor isnt fired
     }
 
     public function getSampleObject(array $properties = array())
