@@ -10,14 +10,6 @@ class MockProvider extends Mocker{
     public function __construct() {
         // So that parent constructor isnt fired
     }
-    
-    public function getTwigEnvironmentMock()
-    {
-        $twig_Environment = $this->getMockBuilder('\Twig_Environment')
-                ->getMock();
-
-        return $twig_Environment;
-    }
 
     public function getSampleObject(array $properties = array())
     {
