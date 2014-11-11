@@ -32,4 +32,23 @@ class MockProvider extends Mocker{
 
         return base64_decode($imageString);
     }
+
+    public function getCurlMock()
+    {
+        $serviceMock = $this->getMockBuilder('\Bundles\CoreBundle\Service\CurlService', array());
+        $serviceMock->disableOriginalConstructor();
+
+        return $serviceMock->getMock();
+    }
+
+    public function getSoapMock()
+    {
+        $serviceMock = $this->getMockBuilder('\Soapclient', array(
+            'WSDL_URL' => "http://ws.webgains.com/aws.php"
+        ));
+
+        $serviceMock->disableOriginalConstructor();
+
+        return $serviceMock->getMock();
+    }
 }
