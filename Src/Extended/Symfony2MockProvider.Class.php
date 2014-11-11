@@ -10,8 +10,6 @@ use PHPUnitAssister\Src\Core\Mocker;
  */
 class Symfony2MockProvider extends Mocker{
     
-    private $mocks = [];
-    
     /**
      *
      * @param type $service
@@ -152,7 +150,6 @@ class Symfony2MockProvider extends Mocker{
                         'findOneBy' => $returnValue
                     ));
         }
-
 
         return $repo;
     }
@@ -322,6 +319,11 @@ class Symfony2MockProvider extends Mocker{
     public function getSecurityContextMock()
     {
         return $this->getServiceMock('\Symfony\Component\Security\Core\SecurityContextInterface');
+    }
+
+    public function getPasswordEncoderMock()
+    {
+        return $this->getServiceMock('\Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface');
     }
     
     public function getTokenMock()
