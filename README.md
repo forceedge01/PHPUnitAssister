@@ -6,7 +6,7 @@ This README would normally document whatever steps are necessary to get your app
 
 * Quick summary
 PHPUnit assister's main focus is to minimize the amount of duplicate code written for testing. Inital version focuses on mocking and asserting methods.
-* Version 1.0
+* Version 0.1
 
 ### How do I get set up? ###
 
@@ -17,7 +17,7 @@ With composer
 ```
 {
 	"require": {
-		"genesis/phpunitassister": "dev-master"
+		"genesis/phpunitassister": "0.1"
 	}
 }
 ```
