@@ -17,7 +17,7 @@ With composer
 ```
 {
 	"require": {
-		"genesis/phpunitassister": "0.1.1"
+		"genesis/phpunitassister": "0.1.*"
 	}
 }
 ```
@@ -69,10 +69,10 @@ abstract class AssertionAssister extends WebTestCase {
 You can also choose to extend the assister with your own custom methods, a base symfony2 mock provider is already provided as an extended class.
 
 ```
-// PHPUnitAssister/Src/Extended/Symfony2MockProvider.Class.php
+// PHPUnitAssister/Src/Extensions/Symfony2MockProvider.Class.php
 <?php
 
-namespace PHPUnitAssister\src\Extended;
+namespace PHPUnitAssister\src\Extensions;
 
 
 use PHPUnitAssister\src\Core\TestObjectHandler;

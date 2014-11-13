@@ -248,7 +248,7 @@ abstract class Mocker extends AssertionAssister {
             return $this->mockProviders[$mockProviderClass];
         }
 
-        $qualifiedClass = "\\PHPUnitAssister\\Src\\Extended\\$mockProviderClass";
+        $qualifiedClass = "\\PHPUnitAssister\\Src\\Extensions\\$mockProviderClass";
         \PHPUnitAssister\Loader::LoadExtendedFileByClass($mockProviderClass);
         $this->mockProviders[$mockProviderClass] = new $qualifiedClass;
 

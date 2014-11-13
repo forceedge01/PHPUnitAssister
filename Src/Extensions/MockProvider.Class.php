@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPUnitAssister\Src\Extended;
+namespace PHPUnitAssister\Src\Extensions;
 
 
 use PHPUnitAssister\Src\Core\Mocker;
