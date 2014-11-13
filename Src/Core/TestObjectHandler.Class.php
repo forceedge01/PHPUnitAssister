@@ -31,6 +31,11 @@ abstract class TestObjectHandler extends Mocker{
         return $this;
     }
 
+    /**
+     *
+     * @param array $args
+     * @return \PHPUnitAssister\Src\Core\TestObjectHandler
+     */
     public function resetTestObject(array $args)
     {
         $this->setReflection($this->testObject);
@@ -40,6 +45,12 @@ abstract class TestObjectHandler extends Mocker{
         return $this;
     }
 
+    /**
+     *
+     * @param type $index
+     * @param type $argument
+     * @return \PHPUnitAssister\Src\Core\TestObjectHandler
+     */
     public function resetTestObjectArgument($index, $argument)
     {
         $this->args[$index] = null;

@@ -22,7 +22,7 @@ class Loader {
 
     public static function LoadExtendedFileByClass($class)
     {
-        require_once __DIR__ . '/Src/Extended/' . $class . '.Class.php';
+        require_once __DIR__ . '/Src/Extensions/' . $class . '.Class.php';
     }
 }
 
