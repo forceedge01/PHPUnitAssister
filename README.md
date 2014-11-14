@@ -21,10 +21,6 @@ With composer
 }
 ```
 
-```
-git clone git@bitbucket.org:wqureshi/phpunitassister.git PHPUnitAssister
-```
-
 * PHPUnit assister is a simple class library which is to be placed as a parent class of the actual test class.
 
 * Configuration
@@ -103,15 +99,20 @@ class ExtendedMockProvider extends Mocker{ // or Symfony2MockProvider
 
 * phpunitAssister abbreviated calls
 ```
+// Setting the test object
+$this->setTestObject($yourClassToTest, array $arguments);
+
 // Mocking
-... ->setmo(object $mocked) // set mock object
+$this->setmo(object $mocked) // set mock object
 	->mm($method, array $args ...) // mock method
+	->mmx(array $methods, array $options) // Mock multiple methods at once, stops chaining
+	->then($method, array $args ...) // Chain next mock object with previous will clause object
 	->getmo() // get mock object
 	->getmos() // get mock objects
 	->setbm() // Set base mock
 
 // Assertions
-... ->tm($method) // test method
+$this->tm($method) // test method
 	->with($param1, $param2) // params for the test method
 	// Basic assertions
 	->assert('true') // Assert that result is true
@@ -120,11 +121,23 @@ class ExtendedMockProvider extends Mocker{ // or Symfony2MockProvider
 	->assert('isarray') // Assert that result is an array
 	->assert('isarray', '[]==5') // Assert that array has a count of 5
 	->assert('isarray', '[3]==example') // Assert that array index 3 is equal to example
+	->setIndexToTest('someIndex') // Explicitly set the index to test
 	// Object assertions
 	->assert('isobject') // Assert that resultant is an object
 	->assert('isobject', $classType) // Assert that the resultant object is of type $classType
+	->setPropertyToTest('property') // Sets the property to be tested
 	->callMethodToTest('isLoggedIn') // Call method 'isLoggedIn' on resultant object and set its value as the test subject
 	->assert('true') // Assert that the result of isLoggedIn is true
+	->getTestResult(); // Returns the test result at any point
+
+// Repeat call - can be used with specific assertion calls only
+	->assert('isarray', '[3]==example') // Assert that array index 3 is equal to example
+	->repeat() // Will repeat isarray with no params
+	->repeat('[1]==repeated') // will repeat assert isarray with index 1 equal to repeated
+	->repeat('[]==10') // will repeat assert is array with param array count equal to 10
+
+// Resetting the initial result back to test
+	->resetResultToTest();
 ```
 
 * Examples
