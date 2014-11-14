@@ -60,37 +60,14 @@ abstract class TestObjectHandler extends Mocker{
         return $this;
     }
 
-    public function setMessage($expected, $response)
-    {
-        $formattedResponse = $response;
-
-        if(is_object($formattedResponse))
-        {
-            $formattedResponse = 'instance of '.get_class($formattedResponse);
-        }
-        else if(is_array($formattedResponse))
-        {
-            $formattedResponse = print_r($formattedResponse, true);
-        }
-
-        $formattedExpected = $expected;
-
-        if(is_object($formattedExpected) || is_array($formattedExpected))
-        {
-            $formattedExpected = print_r($formattedExpected, true);
-        }
-
-        return "\n\nExpected (++) \nActual (--) \n\n@++ $formattedExpected\n@-- $formattedResponse\n";
-    }
-
-    public function setReflection($class)
+    private function setReflection($class)
     {
         $this->reflection = new \ReflectionClass($class);
 
         return $this;
     }
 
-    public function getReflection()
+    private function getReflection()
     {
         $this->reflection;
     }
