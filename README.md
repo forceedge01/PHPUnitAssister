@@ -21,10 +21,6 @@ With composer
 }
 ```
 
-```
-git clone git@bitbucket.org:wqureshi/phpunitassister.git PHPUnitAssister
-```
-
 * PHPUnit assister is a simple class library which is to be placed as a parent class of the actual test class.
 
 * Configuration
