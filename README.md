@@ -6,7 +6,6 @@ This README would normally document whatever steps are necessary to get your app
 
 * Quick summary
 PHPUnit assister's main focus is to minimize the amount of duplicate code written for testing. Inital version focuses on mocking and asserting methods.
-* Version 0.1
 
 ### How do I get set up? ###
 
@@ -102,7 +101,7 @@ class ExtendedMockProvider extends Mocker{ // or Symfony2MockProvider
 
 * Repo owner or admin
 
-* phpunitAssister abreviated calls
+* phpunitAssister abbreviated calls
 ```
 // Mocking
 ... ->setmo(object $mocked) // set mock object
