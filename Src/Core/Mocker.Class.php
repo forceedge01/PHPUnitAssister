@@ -214,6 +214,14 @@ abstract class Mocker extends AssertionAssister {
     {   
         return $this->mockObjects[0];
     }
+
+    /**
+     * @return Array
+     */
+    public function getmos()
+    {
+        return $this->mockObjects;
+    }
     
     /**
      * 

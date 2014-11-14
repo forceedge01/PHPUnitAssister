@@ -17,7 +17,7 @@ With composer
 ```
 {
 	"require": {
-		"genesis/phpunitassister": "0.1.*"
+		"genesis/phpunitassister": "0.2.*"
 	}
 }
 ```
@@ -102,6 +102,32 @@ class ExtendedMockProvider extends Mocker{ // or Symfony2MockProvider
 
 * Repo owner or admin
 
+* phpunitAssister abreviated calls
+```
+// Mocking
+... ->setmo(object $mocked) // set mock object
+	->mm($method, array $args ...) // mock method
+	->getmo() // get mock object
+	->getmos() // get mock objects
+	->setbm() // Set base mock
+
+// Assertions
+... ->tm($method) // test method
+	->with($param1, $param2) // params for the test method
+	// Basic assertions
+	->assert('true') // Assert that result is true
+	->assert('true', 'your result') // Assert that result equals the string 'your result'
+	// Array assertions
+	->assert('isarray') // Assert that result is an array
+	->assert('isarray', '[]==5') // Assert that array has a count of 5
+	->assert('isarray', '[3]==example') // Assert that array index 3 is equal to example
+	// Object assertions
+	->assert('isobject') // Assert that resultant is an object
+	->assert('isobject', $classType) // Assert that the resultant object is of type $classType
+	->callMethodToTest('isLoggedIn') // Call method 'isLoggedIn' on resultant object and set its value as the test subject
+	->assert('true') // Assert that the result of isLoggedIn is true
+```
+
 * Examples
 
 Setting your test class
@@ -115,7 +141,7 @@ $this->setTestObject('Bundles\CampaignsBundle\Service\CampaignsService', array(
         ));
 ```
 
-Altering your test class's dependecy
+Altering your test class's dependency
 ```
 $entityManager = $this->SymfMockProvider->getEntityManagerMock();
 
@@ -147,7 +173,7 @@ $entityManager->expects($this->exactly(2))
         ->will($this->returnValue($assertRepoMock));
 ```
 
-PHPUnit assister
+PHPUnit assister - chain mocking the entity manager in symfony2
 ```
 // Starts at the entityManager
 $entityManager = $this->setmo($this->SymfMockProvider->getEntityManagerMock())
@@ -170,6 +196,30 @@ $entityManager = $this->setmo($this->SymfMockProvider->getEntityManagerMock())
 	])
 	// Finally get the mocked object to inject into the test object
 	->getmo();
+```
+
+To use the userMock and AssetRepoMock from the previous example you can do
+```
+list($entityManager, $assetRepoMock, $userMock) = $this->setmo($this->SymfMockProvider->getEntityManagerMock())
+	->mm('getRepository', [
+		'expects' => $this->exactly(2),
+		'with' => 'AssetBundle:Image',
+		// Inject the mock directly, doesnt need to stored in another variable
+		'will' => $this->returnValue($this->SymfMockProvider->getRepositoryMock('AssetBundle:Image'))
+	])
+	// Use the then call to further mock methods of the previously set object in the will clause
+	->then('find', [
+		'expects' => $this->exactly(1),
+		'with' => 12,
+		'will' => $this->returnValue($this->getUserMock())
+	])
+	// This will mock a method on the $this->getUserMock() resultant object
+	->then('getEmail', [
+		//Omit expects as its default value is $this->any()
+		'will' => $this->returnValue('example@phpunitAssister.com')
+	])
+	// Getmos call gives you call mocks in sequential order
+	->getmos();
 ```
 
 Calling test methods and chained Assertions
