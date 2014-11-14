@@ -20,6 +20,8 @@ abstract class Mocker extends AssertionAssister {
      */
     public function mockMethod($mockedObject, $method, $returnValue = null)
     {
+        Debugger::TombStone('14-11-14');
+
         $mockedObject->expects($this->any())
                 ->method($method)
                 ->will($this->returnValue($returnValue));
@@ -35,6 +37,8 @@ abstract class Mocker extends AssertionAssister {
      */
     public function setMock($object)
     {
+        Debugger::TombStone('14-11-14');
+
         $this->setmo($object);
         
         return $this;
@@ -49,9 +53,18 @@ abstract class Mocker extends AssertionAssister {
      */
     public function mock($method, $returnValue = null)
     {
+        Debugger::TombStone('14-11-14');
+
         $this->mm($method, array('will' => $this->returnValue($returnValue)));
 
         return $this;
+    }
+
+    public function mockMultiple(array $methods, array $options = array())
+    {
+        Debugger::TombStone('14-11-14');
+
+        $this->mmx($methods, $options);
     }
 
     /**
@@ -60,7 +73,7 @@ abstract class Mocker extends AssertionAssister {
      * @return \Bundles\CoreBundle\Tests\Service\ExtendedTestCase
      * @depreciated
      */
-    public function mockMultiple(array $methods, array $options = array())
+    public function mmx(array $methods, array $options = array())
     {
         if($options)
         {
@@ -94,6 +107,8 @@ abstract class Mocker extends AssertionAssister {
      */
     public function getMockObject()
     {
+        Debugger::TombStone('14-11-14');
+        
         return $this->mockObject;
     }
     
