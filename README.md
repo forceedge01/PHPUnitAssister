@@ -119,9 +119,9 @@ $this->tm($method) // test method
 	->assert('true') // Assert that result is true
 	->assert('true', 'your result') // Assert that result equals the string 'your result'
 	->assert('false')
-	->assert('equals', '') // Perform equal assertion
-	->assert('empty', '')
-	->assert('notempty', '')
+	->assert('equals', 'something-that-equals-result') // Perform equal assertion
+	->assert('empty') // assert if result is empty
+	->assert('notempty') // assert if result in non-empty
 	
 	// String position
 	->assert('contains', 'This-would-be-something-you-expect-the-result-to-contain')
@@ -134,7 +134,7 @@ $this->tm($method) // test method
 	->assert('isarray') // Assert that result is an array
 	->assert('isarray', '[]==5') // Assert that array has a count of 5, can be used with true or false
 	->assert('isarray', '[3]==example') // Assert that array index 3 is equal to example, can be used with true or false
-	->assert('arrayhaskey', '')
+	->assert('arrayhaskey', 'some-key-index')
 	->setIndexToTest('someIndex') // Explicitly set the index to test
 	
 	// Object assertions
