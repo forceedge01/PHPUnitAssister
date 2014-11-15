@@ -114,20 +114,38 @@ $this->setmo(object $mocked) // set mock object
 // Assertions
 $this->tm($method) // test method
 	->with($param1, $param2) // params for the test method
+	
 	// Basic assertions
 	->assert('true') // Assert that result is true
 	->assert('true', 'your result') // Assert that result equals the string 'your result'
+	->assert('false')
+	->assert('equals', '') // Perform equal assertion
+	->assert('empty', '')
+	->assert('notempty', '')
+	
+	// String position
+	->assert('contains', 'This-would-be-something-you-expect-the-result-to-contain')
+	->assert('true', '!==something-not-equal-to-result') // can be used with true or false
+	
+	// Regular expression assert
+	->assert('regexp', '/some-regular-expression/i')
+	
 	// Array assertions
 	->assert('isarray') // Assert that result is an array
-	->assert('isarray', '[]==5') // Assert that array has a count of 5
-	->assert('isarray', '[3]==example') // Assert that array index 3 is equal to example
+	->assert('isarray', '[]==5') // Assert that array has a count of 5, can be used with true or false
+	->assert('isarray', '[3]==example') // Assert that array index 3 is equal to example, can be used with true or false
+	->assert('arrayhaskey', '')
 	->setIndexToTest('someIndex') // Explicitly set the index to test
+	
 	// Object assertions
 	->assert('isobject') // Assert that resultant is an object
 	->assert('isobject', $classType) // Assert that the resultant object is of type $classType
 	->setPropertyToTest('property') // Sets the property to be tested
+	->assert('true', '->property==something') // Shortcut for the setPropertyToTest method, can be used with true or false
 	->callMethodToTest('isLoggedIn') // Call method 'isLoggedIn' on resultant object and set its value as the test subject
 	->assert('true') // Assert that the result of isLoggedIn is true
+	
+	// Generic calls
 	->getTestResult(); // Returns the test result at any point
 
 // Repeat call - can be used with specific assertion calls only
