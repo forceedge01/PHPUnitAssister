@@ -4,3 +4,6 @@ src/Custom/CustomMockProvider.Class.php
 /vendor/
 
 !composer.lock
+
+# Dont include build info
+/build/*
