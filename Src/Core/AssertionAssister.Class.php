@@ -2,10 +2,8 @@
 
 namespace PHPUnitAssister\Src\Core;
 
-// Change namespace according to your project settings
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-abstract class AssertionAssister extends WebTestCase {
+abstract class AssertionAssister extends \PHPUnit_Framework_TestCase{ 
     
     protected $totest, $result, $lastMethod = [], $method, $reflectionMethod, $reflection;
     
