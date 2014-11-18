@@ -22,8 +22,6 @@ abstract class Mocker extends AssertionAssister {
      */
     public function setMock($object)
     {
-        Debugger::TombStone('14-11-14');
-
         $this->setmo($object);
         
         return $this;
@@ -37,18 +35,9 @@ abstract class Mocker extends AssertionAssister {
      */
     public function mock($method, $returnValue = null)
     {
-        Debugger::TombStone('14-11-14');
-
         $this->mm($method, array('will' => $this->returnValue($returnValue)));
 
         return $this;
-    }
-
-    public function mockMultiple(array $methods, array $options = array())
-    {
-        Debugger::TombStone('14-11-14');
-
-        $this->mmx($methods, $options);
     }
 
     /**
@@ -63,9 +52,15 @@ abstract class Mocker extends AssertionAssister {
         return $this;
     }
 
-    public function thenMock($method, array $options = array())
+    /**
+     *
+     * @param type $method
+     * @param array $params
+     * @return \PHPUnitAssister\Src\Core\Mocker
+     */
+    public function mockMethod($method, array $params = array())
     {
-        $this->then($method, $options);
+        $this->mm($method, $params);
 
         return $this;
     }
