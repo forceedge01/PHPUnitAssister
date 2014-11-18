@@ -16,7 +16,7 @@ With composer
 ```
 {
 	"require": {
-		"genesis/phpunitassister": "0.3.*"
+		"genesis/phpunitassister": "0.4.*"
 	}
 }
 ```
