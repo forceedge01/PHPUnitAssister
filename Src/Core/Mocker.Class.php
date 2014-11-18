@@ -8,24 +8,11 @@ class invoker implements \PHPUnit_Framework_MockObject_Invocation {}
 abstract class Mocker extends AssertionAssister {
     
     public $previousMock;
-    private $mockObject;
+    public $mockObject;
     public $mockObjects = array();
     private $mockProviders = array();
-    
-     /**
-     *
-     * @param type $mockedObject
-     * @param type $method
-     * @param type $returnValue
-     */
-    public function mockMethod($mockedObject, $method, $returnValue = null)
-    {
-        $mockedObject->expects($this->any())
-                ->method($method)
-                ->will($this->returnValue($returnValue));
 
-        return $mockedObject;
-    }
+    /******************************************* WRAPPER *******************************************/
 
     /**
      *
@@ -45,7 +32,6 @@ abstract class Mocker extends AssertionAssister {
      * @param type $method
      * @param type $returnValue
      * @return \Bundles\CoreBundle\Tests\Service\ExtendedTestCase
-     * @depreciated
      */
     public function mock($method, $returnValue = null)
     {
@@ -57,73 +43,45 @@ abstract class Mocker extends AssertionAssister {
     /**
      *
      * @param array $methods
-     * @return \Bundles\CoreBundle\Tests\Service\ExtendedTestCase
-     * @depreciated
+     * @param array $options
      */
-    public function mockMultiple(array $methods, array $options = array())
+    public function mockMethods(array $methods, array $options = array())
     {
-        if($options)
-        {
-            foreach($methods as $method)
-            {
-                $this->mm($method, $options);
-            }
-        }
-        else
-        {
-            foreach($methods as $method => $value)
-            {
-                // Checks if the method variable contains an index or not
-                if(is_int($method))
-                {
-                    $this->mm($value);
-                }
-                else
-                {
-                    $this->mm($method, array('will' => $this->returnValue($value)));
-                }
-            }
-        }
+        $this->mmx($methods, $options);
+
+        return $this;
+    }
+
+    public function thenMock($method, array $options = array())
+    {
+        $this->then($method, $options);
 
         return $this;
     }
 
     /**
-     * 
-     * @depreciated
+     * Get the final mocked object
      */
-    public function getMockObject()
+    public function getMockedObject()
     {
-        return $this->mockObject;
+        return $this->getmo();
     }
+
+    public function getMockedObjects()
+    {
+        return $this->getmos();
+    }
+
+    public function setBaseMock()
+    {
+        $this->setbm();
+
+        return $this;
+    }
+
+    /******************************************* END WRAPPER *******************************************/
     
     /******************************* NEW STUFF ************************************/
-    
-    /**
-     * 
-     * @param type $object
-     * @param type $method
-     * @param array $options
-     * @return \Bundles\CoreBundle\Tests\Service\ExtendedTestCase
-     * 
-     * @description will mock a method with all phpunit options available, expects, with, will
-     */
-    public function mm($method, array $options = array())
-    {
-        $this->mockObject = end($this->mockObjects);
-        
-        if(is_array($method) and count($method) > 0)
-        {
-            foreach($method as $met)
-            {
-                $this->mmSingle($met, $options);
-            }
-        }
-        else
-            $this->mmSingle($method, $options);
-        
-        return $this;
-    }
     
     public function setbm()
     {
@@ -137,16 +95,51 @@ abstract class Mocker extends AssertionAssister {
         return $this->setMockObject($this->previousMock)
                 ->mm($method, $options);
     }
+
+    /**
+     *
+     * @param type $object
+     * @param type $method
+     * @param array $options
+     * @return \Bundles\CoreBundle\Tests\Service\ExtendedTestCase
+     *
+     * @description will mock a method with all phpunit options available, expects, with, will
+     */
+    public function mm($method, array $options = array())
+    {
+        $this->mockObject = end($this->mockObjects);
+
+        if(is_array($method) and count($method) > 0)
+        {
+            foreach($method as $met)
+            {
+                $this->mmSingle($met, $options);
+            }
+        }
+        else
+        {
+            $this->mmSingle($method, $options);
+        }
+
+        return $this;
+    }
     
     private function mmSingle($method, array $options = array())
     {
+        if(! is_object($this->mockObject))
+        {
+            throw new \Exception('Unable to mock method \''.$method.'\', expected mock object from class '.  get_called_class() . ', got: '.print_r($this->mockObject, true));
+        }
+
+        if(! method_exists($this->mockObject, $method))
+        {
+           throw new \Exception("Method '{$method}' does not exist for mock object " . get_class($this->mockObject));
+        }
+
         $expects = isset($options['expects']) ? $options['expects'] : $this->any();
         $with = isset($options['with']) ? $options['with'] : '';
         $withArgs = isset($options['withArgs']) ? $options['withArgs'] : '';
         $will = isset($options['will']) ? $options['will'] : $this->returnSelf();
-        
-        if(! is_object($this->mockObject))
-            throw new \Exception('Unable to mock method \''.$method.'\', expected mock object from class '.  get_called_class() . ', got: '.print_r($this->mockObject, true));
             
         $mocked = $this->mockObject->expects($expects)
                 ->method($method);        
@@ -221,9 +214,13 @@ abstract class Mocker extends AssertionAssister {
      * @return \Bundles\CoreBundle\Tests\Service\ExtendedTestCase
      */
     public function setmo($mockedObject)
-    {        
-        $this->mockObjects = [];
-        
+    {
+        // Set property to empty array
+        unset($this->mockObjects);
+        unset($this->mockObject);
+        unset($this->previousMock);
+
+        $this->mockObjects = [];        
         $this->setMockObject($mockedObject);
         
         return $this;
@@ -231,6 +228,7 @@ abstract class Mocker extends AssertionAssister {
     
     private function setMockObject($mockedObject)
     {
+        // Add mock to array
         $this->mockObjects[] = $mockedObject;
         
         return $this;
@@ -253,6 +251,40 @@ abstract class Mocker extends AssertionAssister {
         $this->mockProviders[$mockProviderClass] = new $qualifiedClass;
 
         return $this->mockProviders[$mockProviderClass];
+    }
+
+    /**
+     *
+     * @param array $methods
+     * @return \Bundles\CoreBundle\Tests\Service\ExtendedTestCase
+     * @depreciated
+     */
+    public function mmx(array $methods, array $options = array())
+    {
+        if($options)
+        {
+            foreach($methods as $method)
+            {
+                $this->mm($method, $options);
+            }
+        }
+        else
+        {
+            foreach($methods as $method => $value)
+            {
+                // Checks if the method variable contains an index or not
+                if(is_int($method))
+                {
+                    $this->mm($value);
+                }
+                else
+                {
+                    $this->mm($method, array('will' => $this->returnValue($value)));
+                }
+            }
+        }
+
+        return $this;
     }
     
     /*******************************************************************/

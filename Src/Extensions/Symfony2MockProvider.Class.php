@@ -27,9 +27,6 @@ class Symfony2MockProvider extends Mocker{
         }
         
         $serviceMock = $this->getMockBuilder($service);
-        
-        if(! is_object($serviceMock))
-            throw new \Exception("Unable to mock, Service '{$service}' not found.");
 
         if($options)
         {
@@ -74,25 +71,26 @@ class Symfony2MockProvider extends Mocker{
     
     
 
-    public function getEntityManagerMock($entityColonBundle = null, $methods = array())
+    public function getEntityManagerMock()//$entityColonBundle = null, $methods = array()
     {
         $entityManagerMock = $this->getMockBuilder('Doctrine\ORM\EntityManager')
-                    ->setMethods($methods)
+//                    ->setMethods($methods)
                     ->disableOriginalConstructor()
                     ->getMock();
 
-        $this->mockMethod($entityManagerMock, 'persist');
+        $this->setmo($entityManagerMock)
+                ->mm('persist');
 
         // So the entity manager has a real get repository function from the original entity
-        if($entityColonBundle)
-        {
-            $entityMock = $this->getEntityMock($entityColonBundle, array(
-                'getId' => 1
-            ));
-
-            $repoMock = $this->getRepositoryMock($entityColonBundle, array(), $entityMock);
-            $this->mockMethod($entityManagerMock, 'getRepository', $repoMock);
-        }
+//        if($entityColonBundle)
+//        {
+//            $entityMock = $this->getEntityMock($entityColonBundle, array(
+//                'getId' => 1
+//            ));
+//
+//            $repoMock = $this->getRepositoryMock($entityColonBundle, array(), $entityMock);
+//            $this->mockMethod($entityManagerMock, 'getRepository', $repoMock);
+//        }
 
         return $entityManagerMock;
     }
@@ -142,8 +140,8 @@ class Symfony2MockProvider extends Mocker{
 
         if($returnValue)
         {
-            $this->setMock($repo)
-                    ->mockMultiple(array(
+            $this->setmo($repo)
+                    ->mmx(array(
                         'find' => $returnValue,
                         'findAll' => array($returnValue),
                         'findBy' => array($returnValue),
@@ -180,7 +178,8 @@ class Symfony2MockProvider extends Mocker{
         else
             $route = '/mocked/path/123';
 
-        $this->mockMethod($routerMock, 'generate', $route);
+        $this->setmo($routerMock)
+                ->mm('generate', ['will' => $this->returnValue($route)]);
 
         return $routerMock;
     }
@@ -242,14 +241,20 @@ class Symfony2MockProvider extends Mocker{
             foreach($methods as $method => $value)
             {
                 if($returnValue)
-                    $this->mockMethod($mock, $value, $returnValue);
+                {
+                    $this->setmo($mock)->mm($value, ['will' => $this->returnValue($returnValue)]);
+                }
                 else
-                    $this->mockMethod($mock, $method, $value);
+                {
+                    $this->setmo($mock)->mm($method, ['will' => $this->returnValue($value)]);
+                }
             }
         }
         
         if(! $mock)
+        {
             $this->throwException (\Exception('Unable to create entity for '. $bundleEntity));
+        }
 
         return $mock;
     }
@@ -274,8 +279,8 @@ class Symfony2MockProvider extends Mocker{
 
         $redirectResponseMock->headers = $this->getServiceMock('\Symfony\Component\HttpFoundation\ResponseHeaderBag', array('args' => false));
 
-        $this->setMock($redirectResponseMock->headers)
-                ->mockMultiple(array(
+        $this->setmo($redirectResponseMock->headers)
+                ->mmx(array(
                     'setCookie' => true,
                     'clearCookie' => true
                 ));
@@ -301,9 +306,8 @@ class Symfony2MockProvider extends Mocker{
         $requestMock = $this->getServiceMock('\Symfony\Component\HttpFoundation\Request');
         $requestMock->cookies = $this->getServiceMock('Symfony\Component\HttpFoundation\ParameterBag');
 
-        $this->setMock($requestMock)
-                ->mockMultiple(array(
-                    'has' => true,
+        $this->setmo($requestMock)
+                ->mmx(array(
                     'getHttpHost' => $params['host'],
                     'getScheme' => $params['scheme']
                 ));

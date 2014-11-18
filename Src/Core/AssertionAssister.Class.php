@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 abstract class AssertionAssister extends WebTestCase {
     
     protected $totest, $result, $lastMethod = [], $method, $reflectionMethod, $reflection;
+
+
     
     /**
      * @deprecated - use tm and with instead
@@ -21,9 +23,13 @@ abstract class AssertionAssister extends WebTestCase {
         $this->reflectionMethod = $this->reflection->getMethod($method);
         
         if($params === false)
+        {
             $this->totest = $this->result = $this->reflectionMethod->invoke($this->testObject);
+        }
         else
+        {
             $this->totest = $this->result = $this->reflectionMethod->invokeArgs($this->testObject, $params);
+        }
         
         return $this;
     }
@@ -40,6 +46,8 @@ abstract class AssertionAssister extends WebTestCase {
 
     public function assertWith($params, $type, $expected = null)
     {
+        Debugger::TombStone('14-11-14', 'with');
+
         if($params === false)
             $this->method($this->reflectionMethod->getName())
                 ->assert($type, $expected);
@@ -65,12 +73,16 @@ abstract class AssertionAssister extends WebTestCase {
     public function callMethodToTest($method, $args = array())
     {
         $this->lastMethod[] = __METHOD__;
-        
-        if(! method_exists($this->totest, $method))
-            throw new \Exception("object method '{$method}' not found in ".  get_class($this->totest));
 
         if(! is_object($this->totest))
+        {
             throw new \Exception("Cannot call method on a non object");
+        }
+        
+        if(! method_exists($this->totest, $method))
+        {
+            throw new \Exception("object method '{$method}' not found in class definition of '".  get_class($this->totest)). "'";
+        }
         
         $this->totest = call_user_method_array($method, $this->totest, $args);
         
@@ -144,6 +156,11 @@ abstract class AssertionAssister extends WebTestCase {
                 $this->assertTrue(is_array($this->totest), $this->setMessage('should be an array', $this->totest));
                 $asserted = true;
                 break;
+            }
+            case 'isjson':
+            {
+                json_decode($this->totest);
+                $this->assertTrue(json_last_error() == JSON_ERROR_NONE, $this->setMessage('should be a json', $this->totest));
             }
             case 'isobject':
             {
