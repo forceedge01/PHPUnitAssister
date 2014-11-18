@@ -7,3 +7,6 @@ src/Custom/CustomMockProvider.Class.php
 
 # Dont include build info
 /build/*
+
+# Dont include the bootstrap file as its auto generated
+bootstrap.cache.php
