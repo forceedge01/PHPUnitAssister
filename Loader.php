@@ -9,6 +9,7 @@ class Loader {
     public static function LoadFiles($folder)
     {
         $files = [
+            'Debugger',
             'AssertionAssister',
             'Mocker',
             'TestObjectHandler'

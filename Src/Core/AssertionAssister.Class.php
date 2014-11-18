@@ -2,10 +2,8 @@
 
 namespace PHPUnitAssister\Src\Core;
 
-// Change namespace according to your project settings
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-abstract class AssertionAssister extends WebTestCase {
+abstract class AssertionAssister extends \PHPUnit_Framework_TestCase{ 
     
     protected $totest, $result, $lastMethod = [], $method, $reflectionMethod, $reflection;
 
@@ -18,7 +16,7 @@ abstract class AssertionAssister extends WebTestCase {
      * @param type $params
      * @return \Bundles\CoreBundle\Tests\Service\ExtendedTestCase
      */
-    public function method($method, $params = false)
+    private function method($method, $params = false)
     {
         $this->reflectionMethod = $this->reflection->getMethod($method);
         
@@ -58,6 +56,9 @@ abstract class AssertionAssister extends WebTestCase {
         return $this;
     }
     
+    /**
+     * Set property to test from the test result
+     */
     public function setPropertyToTest($property)
     {
         $this->lastMethod[] = __METHOD__;
@@ -70,6 +71,9 @@ abstract class AssertionAssister extends WebTestCase {
         return $this;
     }
     
+    /**
+     * Call a method on the test result
+     */
     public function callMethodToTest($method, $args = array())
     {
         $this->lastMethod[] = __METHOD__;
@@ -89,6 +93,9 @@ abstract class AssertionAssister extends WebTestCase {
         return $this;
     }
     
+    /**
+     * Sets the test result to make assertions on
+     */
     public function setTestResult($testable)
     {
         $this->lastMethod[] = __METHOD__;
@@ -114,6 +121,9 @@ abstract class AssertionAssister extends WebTestCase {
         return $this;
     }
     
+    /**
+     * Sets the index to test from the test result
+     */
     public function setIndexToTest($index)
     {
         $this->lastMethod[] = __METHOD__;
@@ -126,6 +136,9 @@ abstract class AssertionAssister extends WebTestCase {
         return $this;
     }
     
+    /**
+     * Resets the test result to the initial result
+     */
     public function resetResultToTest()
     {
         $this->totest = $this->result;
@@ -283,6 +296,9 @@ abstract class AssertionAssister extends WebTestCase {
         return $this;
     }
 
+    /**
+     * Asserts that the call returns $this
+     */
     public function assertSelfInstance($result)
     {
         $obj = $this->getTestObject();
@@ -290,6 +306,29 @@ abstract class AssertionAssister extends WebTestCase {
         $this->assertTrue($result instanceof $obj, $this->setMessage('instance of '.  get_class($obj), $result));
 
         return $this;
+    }
+
+    private function setMessage($expected, $response)
+    {
+        $formattedResponse = $response;
+
+        if(is_object($formattedResponse))
+        {
+            $formattedResponse = 'instance of '.get_class($formattedResponse);
+        }
+        else if(is_array($formattedResponse))
+        {
+            $formattedResponse = print_r($formattedResponse, true);
+        }
+
+        $formattedExpected = $expected;
+
+        if(is_object($formattedExpected) || is_array($formattedExpected))
+        {
+            $formattedExpected = print_r($formattedExpected, true);
+        }
+
+        return "\n\nExpected (++) \nActual (--) \n\n@++ $formattedExpected\n@-- $formattedResponse\n";
     }
     
     /*************************************************** NEW STUFF **********************************************/
@@ -327,16 +366,4 @@ abstract class AssertionAssister extends WebTestCase {
     }
     
     /************************************************** END OF NEW STUFF ***************************************************/
-
-    public function prex()
-    {
-        $arguments = func_get_args();
-
-        foreach($arguments as $argument)
-        {
-            print_r($argument);
-        }
-
-        exit();
-    }
 }

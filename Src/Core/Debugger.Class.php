@@ -12,10 +12,10 @@ class Debugger {
 
 		echo "Depreciated method used: '{$caller}', on '{$date}'";
 
-                if($newMethod)
-                {
-                    echo " - Use '{$newMethod}' instead";
-                }
+        if($newMethod)
+        {
+            echo " - Use '{$newMethod}' instead";
+        }
 	}
 
     public static function pre()
