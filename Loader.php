@@ -9,7 +9,7 @@ class Loader {
 
     public static function getBoostrapPath()
     {
-        return __DIR__ . '/' . self::BOOSTRAP_FILE;
+        return self::BOOSTRAP_FILE;
     }
 
     public static function getFiles()
@@ -48,7 +48,7 @@ class Loader {
     {
         $removedMultiplePHPSymbols = str_replace(['<?php', '<?'], '', $contents);
 
-        return '<?php ' . $removedMultiplePHPSymbols;
+        return '<?php // PHPUnitAssister Bootstrap file' . $removedMultiplePHPSymbols;
     }
 
     public static function LoadBootstrap()
