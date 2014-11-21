@@ -342,4 +342,9 @@ class Symfony2MockProvider extends Mocker{
 
         return $kernel;
     }
+
+    public function getJsonResponseMock()
+    {
+        return $this->getServiceMock('Symfony\Component\HttpFoundation\JsonResponse');
+    }
 }
