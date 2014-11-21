@@ -31,7 +31,7 @@ abstract class TestObjectHandler extends Mocker{
         return $this;
     }
 
-    public function setPropertyValue($property, $value)
+    public function setTestObjectProperty($property, $value)
     {
         $this->setReflection($this->testObject);
         $reflectionProperty = $this->reflection->getProperty($property);
