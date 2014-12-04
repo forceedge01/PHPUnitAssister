@@ -5,7 +5,7 @@ namespace PHPUnitAssister\Src\Core;
 
 abstract class AssertionAssister extends \PHPUnit_Framework_TestCase{ 
     
-    protected $totest, $result, $lastMethod = [], $method, $reflectionMethod, $reflection;
+    protected $totest, $result, $lastMethod = [], $method, $reflectionMethod, $reflection, $setMethodAccessible = 0;
 
 
     
@@ -19,6 +19,11 @@ abstract class AssertionAssister extends \PHPUnit_Framework_TestCase{
     private function method($method, $params = false)
     {
         $this->reflectionMethod = $this->reflection->getMethod($method);
+
+        if($this->setMethodAccessible)
+        {
+            $this->reflectionMethod->setAccessible(true);
+        }
         
         if($params === false)
         {
@@ -28,6 +33,8 @@ abstract class AssertionAssister extends \PHPUnit_Framework_TestCase{
         {
             $this->totest = $this->result = $this->reflectionMethod->invokeArgs($this->testObject, $params);
         }
+
+        $this->setMethodAccessible = 0;
         
         return $this;
     }
