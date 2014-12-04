@@ -33,8 +33,7 @@ No Database calls.
 Simply extend your test class with the objectHandler class and run the app, it should work as is even if written with plain PHPUnit methods. Once its working, use the methods provided.
 
 ```
-// PHPUnitAssister/Src/Core/TestObjectHandler.Class.php
-<?php
+// YourProject/Src/Bundle/Test/YourTestClass.Test.php
 
 use PHPUnitAssister\Src\Core\TestObjectHandler;
 
@@ -47,22 +46,10 @@ class YourTestClass extends TestObjectHandler {
 }
 ```
 
-You may also need to set the namespace where the webTestCase class exists in your project for phpunit in the AssertionAssister file
-```
-// PHPUnitAssister/Src/Core/AssertionAssister.Class.php
-<?php
-
-namespace PHPUnitAssister\Src\Core;
-
-abstract class AssertionAssister extends \PHPUnit_Framework_TestCase {
-
-```
-
 You can also choose to extend the assister with your own custom methods, a base symfony2 mock provider is already provided as an extended class.
 
 ```
 // PHPUnitAssister/Src/Extensions/Symfony2MockProvider.Class.php
-<?php
 
 namespace PHPUnitAssister\src\Extensions;
 
@@ -79,7 +66,6 @@ class Symfony2MockProvider extends Mocker{
 
 ```
 // YourClass/ExtendedMockProvider.Class.php
-<?php
 
 class ExtendedMockProvider extends Mocker{ // or Symfony2MockProvider
 
@@ -96,6 +82,8 @@ class ExtendedMockProvider extends Mocker{ // or Symfony2MockProvider
 
 * phpunitAssister abbreviated calls
 ```
+// YourProject/Src/Bundle/Test/YourTestClass.Test.php
+
 // Setting the test object
 $this->setTestObject($yourClassToTest, array $arguments);
 
@@ -159,6 +147,8 @@ $this->tm($method) // test method
 
 Setting your test class
 ```
+// YourProject/Src/Bundle/Test/YourTestClass.Test.php
+
 $this->SymfMockProvider = ->getMockProvider('Symfony2MockProvider');
 
 $this->setTestObject('Bundles\CampaignsBundle\Service\CampaignsService', array(
@@ -179,6 +169,8 @@ A cleaner and more contained way to mock (chain-mock)
 
 PHPUnit standard
 ```
+// YourProject/Src/Bundle/Test/YourTestClass.Test.php
+
 // User mock to be injected in assertRepoMock
 $userMock = $this->getUserMock();
 $userMock->expects($this->any())
@@ -202,6 +194,8 @@ $entityManager->expects($this->exactly(2))
 
 PHPUnit assister - chain mocking the entity manager in symfony2
 ```
+// YourProject/Src/Bundle/Test/YourTestClass.Test.php
+
 // Starts at the entityManager
 $entityManager = $this->setmo($this->SymfMockProvider->getEntityManagerMock())
 	->mm('getRepository', [
@@ -251,6 +245,10 @@ list($entityManager, $assetRepoMock, $userMock) = $this->setmo($this->SymfMockPr
 
 Calling test methods and chained Assertions
 ```
+// YourProject/Src/Bundle/Test/YourTestClass.Test.php
+
+... // Mocking
+
 // Set method to test
 $this->tm('exampleMethod')
 	// Specify params of method if any
@@ -261,4 +259,18 @@ $this->tm('exampleMethod')
 	->callMethodToTest('isLoggedIn')
 	// check if the result of the isLoggedIn call is true
 	->assert('true');
+```
+
+Creating extensions
+-------------------
+
+To create an extension place your extension mock provider in the extensions folder (Src/Extensions) with the namespace PHPUnitAssister\Src\Extensions, the filenaming convention is `nameOfYourExtension.Class.php`
+
+Once you have placed it in extensions folder, you can access your extension methods using the getMockProvider call
+
+```
+// YourProject/Src/Bundle/Test/YourTestClass.Test.php
+... // Any code
+
+$this->getMockProvider('nameOfYourExtension');
 ```
