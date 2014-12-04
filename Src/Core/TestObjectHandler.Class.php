@@ -74,10 +74,9 @@ abstract class TestObjectHandler extends Mocker{
      *
      * @param type $method
      */
-    public function setTestObjectMethodAccessible($method)
+    public function setTestObjectMethodAccessible()
     {
-        $this->reflectionMethod = $this->reflection->getMethod($method);
-        $this->reflectionMethod->setAccessible(true);
+        $this->setMethodAccessible = 1;
 
         return $this;
     }
