@@ -263,12 +263,12 @@ $this->tm('exampleMethod')
 
 Calling a private/protected method to test
 ```
-$this->setTestObjectMethodAccessible()
+$this->setTestObjectMethodAccessible() // or $this->setma()
 	->tm('privateMethod')->with()
 	->assert...
 ```
 
-The `->setTestObjectMethodAccessible` will set the next tested method using the `->tm` call to public accessibility.
+The `->setTestObjectMethodAccessible` will set the next tested method using the `->tm` call to public accessibility. Must be called before the `->with` call in order to work.
 
 Creating extensions
 -------------------

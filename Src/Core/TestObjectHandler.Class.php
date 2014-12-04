@@ -80,6 +80,11 @@ abstract class TestObjectHandler extends Mocker{
 
         return $this;
     }
+
+    public function setma()
+    {
+        return $this->setTestObjectMethodAccessible();
+    }
     
     public function getTestObject()
     {
