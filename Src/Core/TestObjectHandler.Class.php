@@ -70,9 +70,14 @@ abstract class TestObjectHandler extends Mocker{
         return $this;
     }
 
-    private function setReflection($class)
+    /**
+     *
+     * @param type $method
+     */
+    public function setTestObjectMethodAccessible($method)
     {
-        $this->reflection = new \ReflectionClass($class);
+        $this->reflectionMethod = $this->reflection->getMethod($method);
+        $this->reflectionMethod->setAccessible(true);
 
         return $this;
     }
@@ -80,5 +85,12 @@ abstract class TestObjectHandler extends Mocker{
     public function getTestObject()
     {
         return $this->testObject;
+    }
+
+    private function setReflection($class)
+    {
+        $this->reflection = new \ReflectionClass($class);
+
+        return $this;
     }
 }
