@@ -1,7 +1,6 @@
 <?php
 
-namespace PHPUnitAssister\Src\Core;
-
+namespace PHPUnitAssister\Core;
 
 class invoker implements \PHPUnit_Framework_MockObject_Invocation {}
 

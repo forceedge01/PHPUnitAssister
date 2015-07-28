@@ -1,9 +1,8 @@
 <?php
 
-namespace PHPUnitAssister\Src\Extensions;
+namespace PHPUnitAssister\Extensions;
 
-
-use PHPUnitAssister\Src\Core\Mocker;
+use PHPUnitAssister\Core\Mocker;
 
 class MockProvider extends Mocker{
 

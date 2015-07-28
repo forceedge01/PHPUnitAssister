@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPUnitAssister\Src\Tests\Core;
+namespace PHPUnitAssister\Tests\Core;
 
 class example {
 
@@ -22,10 +22,10 @@ class AssertionAssisterTests extends \PHPUnit_Framework_TestCase {
 	public function __construct() 
 	{
 		// Set reflection to access private/protected properties
-		$this->reflection = new \ReflectionClass('\PHPUnitAssister\Src\Core\AssertionAssister');
+		$this->reflection = new \ReflectionClass('\PHPUnitAssister\Core\AssertionAssister');
 
 		// The actual object on which tests are to be performed
-		$this->testObject = $this->getMockForAbstractClass('\PHPUnitAssister\Src\Core\AssertionAssister');
+		$this->testObject = $this->getMockForAbstractClass('\PHPUnitAssister\Core\AssertionAssister');
 	}
 
 	/**
