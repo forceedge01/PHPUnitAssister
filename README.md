@@ -16,7 +16,7 @@ With composer
 ```
 {
 	"require": {
-		"genesis/phpunitassister": "0.4.*"
+		"genesis/phpunitassister": "0.6.*"
 	}
 }
 ```
@@ -35,7 +35,7 @@ Simply extend your test class with the objectHandler class and run the app, it s
 ```
 // YourProject/Src/Bundle/Test/YourTestClass.Test.php
 
-use PHPUnitAssister\Src\Core\TestObjectHandler;
+use PHPUnitAssister\Core\TestObjectHandler;
 
 class YourTestClass extends TestObjectHandler {
 
@@ -51,10 +51,10 @@ You can also choose to extend the assister with your own custom methods, a base 
 ```
 // PHPUnitAssister/Src/Extensions/Symfony2MockProvider.Class.php
 
-namespace PHPUnitAssister\src\Extensions;
+namespace PHPUnitAssister\Extensions;
 
 
-use PHPUnitAssister\src\Core\TestObjectHandler;
+use PHPUnitAssister\Core\TestObjectHandler;
 
 /*
  * This class provides standard symfony2.3 mock objects
@@ -273,7 +273,7 @@ The `->setTestObjectMethodAccessible` will set the next tested method using the 
 Creating extensions
 -------------------
 
-To create an extension place your extension mock provider in the extensions folder (Src/Extensions) with the namespace PHPUnitAssister\Src\Extensions, the filenaming convention is `nameOfYourExtension.Class.php`
+To create an extension place your extension mock provider in the extensions folder (Src/Extensions) with the namespace PHPUnitAssister\Extensions, the filenaming convention is `nameOfYourExtension.Class.php`
 
 Once you have placed it in extensions folder, you can access your extension methods using the getMockProvider call
 
