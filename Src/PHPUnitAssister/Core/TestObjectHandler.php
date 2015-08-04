@@ -6,6 +6,13 @@ abstract class TestObjectHandler extends Mocker{
 
     protected $testObject;
     protected $args;
+    protected $provider;
+
+
+    public function __construct()
+    {
+        $this->provider = $this->getMockProvider();
+    }
 
     /**
      *

@@ -22,6 +22,14 @@ class MockProvider extends Mocker{
         return $stdObject;
     }
 
+    // Get new mock with disabled constructor
+    public function getNewMock($class, array $args = array())
+    {
+        return $this->getMockBuilder($class, $args)
+            ->disableOriginalConstructor()
+            ->getMock();
+    }
+
     public function getNewSampleImage()
     {
         $imageString = 'iVBORw0KGgoAAAANSUhEUgAAABwAAAASCAMAAAB/2U7WAAAABl' .
@@ -34,10 +42,7 @@ class MockProvider extends Mocker{
 
     public function getCurlMock()
     {
-        $serviceMock = $this->getMockBuilder('\Bundles\CoreBundle\Service\CurlService', array());
-        $serviceMock->disableOriginalConstructor();
-
-        return $serviceMock->getMock();
+        return $this->getNewMock('\Bundles\CoreBundle\Service\CurlService');
     }
 
     public function getSoapMock()

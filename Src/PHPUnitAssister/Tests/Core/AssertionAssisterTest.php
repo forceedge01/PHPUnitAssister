@@ -37,7 +37,7 @@ class AssertionAssisterTests extends \PHPUnit_Framework_TestCase {
 		$property2 = $this->reflection->getProperty( 'totest' );
 		$property2->setAccessible( true );
 		// Assign the example class as the class that is being tested within this method
-		$property2->setValue($this->testObject, new \PHPUnitAssister\Src\Tests\Core\example());
+		$property2->setValue($this->testObject, new \PHPUnitAssister\Tests\Core\example());
 
 		// Invoke method on abstract class
 		$result = $this->testObject->setPropertyToTest('publicProperty');

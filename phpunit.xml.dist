@@ -12,11 +12,11 @@
     syntaxCheck                 = "true"
     mapTestClassNameToCoveredClassName="false"
     strict                      = "true"
-    bootstrap                   = "Loader.php" >
+    bootstrap                   = "Src/PHPUnitAssister/Loader.php" >
 
   <testsuites>
       <testsuite name="PhpUnitAssister">
-          <directory suffix="Test.Class.php">./Src/Tests/*</directory>
+          <directory suffix="Test.php">./Src/PHPUnitAssister/Tests/*</directory>
       </testsuite>
   </testsuites>
 
