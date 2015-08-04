@@ -254,14 +254,19 @@ abstract class Mocker extends AssertionAssister {
      */
     public function getMockProvider($mockProviderClass = 'MockProvider')
     {
+        return $this->mockProvider($mockProvider);   
+    }
+
+    public function mockProvider($mockProvider = 'MockProvider')
+    {
         if(isset($this->mockProviders[$mockProviderClass]))
         {
             return $this->mockProviders[$mockProviderClass];
         }
 
-        $qualifiedClass = "\\PHPUnitAssister\\Src\\Extensions\\$mockProviderClass";
+        $qualifiedClass = "\\PHPUnitAssister\\Extensions\\$mockProviderClass";
         \PHPUnitAssister\Loader::LoadExtendedFileByClass($mockProviderClass);
-        $this->mockProviders[$mockProviderClass] = new $qualifiedClass;
+        $this->mockProviders[$mockProviderClass] = new $qualifiedClass();
 
         return $this->mockProviders[$mockProviderClass];
     }
