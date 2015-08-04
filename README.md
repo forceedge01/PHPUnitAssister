@@ -16,7 +16,7 @@ With composer
 ```
 {
 	"require": {
-		"genesis/phpunitassister": "0.6.*"
+		"genesis/phpunitassister": "1.0.*"
 	}
 }
 ```
@@ -149,7 +149,7 @@ Setting your test class
 ```
 // YourProject/Src/Bundle/Test/YourTestClass.Test.php
 
-$this->SymfMockProvider = ->getMockProvider('Symfony2MockProvider');
+$this->SymfMockProvider = $this->getMockProvider('Symfony2MockProvider');
 
 $this->setTestObject('Bundles\CampaignsBundle\Service\CampaignsService', array(
             'entityManager' => $this->SymfMockProvider->getEntityManagerMock(),
@@ -269,6 +269,13 @@ $this->setTestObjectMethodAccessible() // or $this->setma()
 ```
 
 The `->setTestObjectMethodAccessible` will set the next tested method using the `->tm` call to public accessibility. Must be called before the `->with` call in order to work.
+
+To get the mock provider you can use `$this->provider` which essentially is the same as `$this->getMockProvider()`. Note that this will provide you with basic mocking capabilities. To create a new mock object you can use
+
+```
+// Args are optional in this case, this will provide a new mock with the constructor disabled.
+$this->provider->getNewMock('\Your\Class', $args);
+```
 
 Creating extensions
 -------------------
