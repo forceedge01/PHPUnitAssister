@@ -254,10 +254,10 @@ abstract class Mocker extends AssertionAssister {
      */
     public function getMockProvider($mockProviderClass = 'MockProvider')
     {
-        return $this->mockProvider($mockProvider);   
+        return $this->mockProvider($mockProviderClass);
     }
 
-    public function mockProvider($mockProvider = 'MockProvider')
+    public function mockProvider($mockProviderClass = 'MockProvider')
     {
         if(isset($this->mockProviders[$mockProviderClass]))
         {
