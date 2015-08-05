@@ -203,6 +203,13 @@ abstract class AssertionAssister extends \PHPUnit_Framework_TestCase{
                 $asserted = true;
                 break;
             }
+            case 'equals':
+            {
+                $this->assertEquals($this->totest, $expected, $this->setMessage("expected '$expected' to be equal to result", $this->totest));
+
+                $asserted = true;
+                break;
+            }
         }
         
         if($asserted)
