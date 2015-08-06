@@ -149,7 +149,7 @@ Setting your test class
 ```
 // YourProject/Src/Bundle/Test/YourTestClass.Test.php
 
-$this->SymfMockProvider = $this->getMockProvider('Symfony2MockProvider');
+$this->SymfMockProvider = $this->getMockProvider('Symfony2');
 
 $this->setTestObject('Bundles\CampaignsBundle\Service\CampaignsService', array(
             'entityManager' => $this->SymfMockProvider->getEntityManagerMock(),
@@ -288,5 +288,5 @@ Once you have placed it in extensions folder, you can access your extension meth
 // YourProject/Src/Bundle/Test/YourTestClass.Test.php
 ... // Any code
 
-$this->getMockProvider('nameOfYourExtension');
+$this->getMockProvider('name-of-your-extension-without-mockProvider-extension');
 ```
