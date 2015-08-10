@@ -13,8 +13,8 @@
         "phpunit/phpunit": ">=3.7.0"
     },
     "autoload": {
-        "psr-0": {
-            "PHPUnitAssister": "Src/"
+        "psr-4": {
+            "PHPUnitAssister": "Src/PHPUnitAssister"
         }
     }
 }

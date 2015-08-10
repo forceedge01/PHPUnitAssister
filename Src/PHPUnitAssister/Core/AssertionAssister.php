@@ -52,12 +52,14 @@ abstract class AssertionAssister extends \PHPUnit_Framework_TestCase{
     {
         Debugger::TombStone('14-11-14', 'with');
 
-        if($params === false)
+        if($params === false) {
             $this->method($this->reflectionMethod->getName())
                 ->assert($type, $expected);
-        else
+        }
+        else {
             $this->method($this->reflectionMethod->getName(), $params)
                 ->assert($type, $expected);
+        }
 
         return $this;
     }

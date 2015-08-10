@@ -2,6 +2,8 @@
 
 namespace PHPUnitAssister\Tests\Core;
 
+require_once __DIR__ . '/../../../../vendor/autoload.php';
+
 class example {
 
 	private $property;

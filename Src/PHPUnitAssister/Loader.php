@@ -1,34 +1,34 @@
 <?php
 
-namespace PHPUnitAssister;
+// namespace PHPUnitAssister;
 
-class Loader {
+// class Loader {
 
-    const DISPLAY_LOADED_FILES = true;
+//     const DISPLAY_LOADED_FILES = true;
 
-    public static function getFiles()
-    {
-        $files = [
-            'Debugger',
-            'AssertionAssister',
-            'Mocker',
-            'TestObjectHandler'
-        ];
+    // public static function getFiles()
+    // {
+    //     $files = [
+    //         'Debugger',
+    //         'AssertionAssister',
+    //         'Mocker',
+    //         'TestObjectHandler'
+    //     ];
 
-        return $files;
-    }
+    //     return $files;
+    // }
 
-    public static function LoadExtendedFileByClass($class)
-    {
-        require_once __DIR__ . '/Extensions/' . $class . '.php';
-    }
+    // public static function LoadExtendedFileByClass($class)
+    // {
+    //     require_once __DIR__ . '/Extensions/' . $class . '.php';
+    // }
 
-    public static function load()
-    {
-        foreach(self::getFiles() as $file) {
-            require_once __DIR__ . '/Core/' . $file . '.php';
-        }
-    }
-}
+    // public static function load()
+    // {
+    //     foreach(self::getFiles() as $file) {
+    //         require_once __DIR__ . '/Core/' . $file . '.php';
+    //     }
+    // }
+// }
 
-Loader::load();
+// Loader::load();
