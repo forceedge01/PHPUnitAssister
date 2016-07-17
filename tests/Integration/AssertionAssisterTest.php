@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPUnitAssister\Tests\Core;
+namespace PHPUnitAssister\Tests\Integration;
 
 class example
 {
