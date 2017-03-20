@@ -14,7 +14,8 @@
     },
     "autoload": {
         "psr-4": {
-            "PHPUnitAssister\\": "Src/PHPUnitAssister/"
+            "PHPUnitAssister\\": "src/",
+            "PHPUnitAssister\\Tests\\": "tests/"
         }
     }
 }
